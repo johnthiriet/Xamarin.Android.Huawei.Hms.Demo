@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.huawei.hms.maps.MapView
+        android:id="@+id/mapview" 
+        android:layout_width="match_parent" 
+        android:layout_height="match_parent" 
+        app:cameraTargetLat="48.866667" 
+        app:cameraTargetLng="2.333333" 
+        app:cameraZoom="11" 
+    />
+
+
+</RelativeLayout>

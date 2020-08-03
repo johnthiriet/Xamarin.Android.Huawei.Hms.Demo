@@ -12,6 +12,8 @@
 *.nupkg
 *.exe
 *.dll
+*.jks
+agconnect-services.json
 
 # Xamarin Components
 Components/
