@@ -22,3 +22,5 @@ In order to run the sample you will need to have a Huawei Developer account. To 
 - Add the Sha256 of the keystore to your project settings in the Huawei Developer portal.
 - Download and replace the `agconnect-services.json` file in the solution with yours.
 - Update the application id with yours in the AndroidManifest.xml file in the `android:name="com.huawei.hms.client.appid"` meta-data.
+
+![Application demo](https://i.imgur.com/fo3pX8P.gif)
