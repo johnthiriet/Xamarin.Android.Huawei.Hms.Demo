@@ -17,7 +17,9 @@ namespace HmsDemo
         {
             base.OnNewToken(token);
 
-            Log.Info(TAG, $"Received token: {token}");
+            Log.Info(TAG, $"Push token: {token}");
+
+            Xamarin.Essentials.Preferences.Set("PushToken", token);
 
             if (!string.IsNullOrEmpty(token))
             {

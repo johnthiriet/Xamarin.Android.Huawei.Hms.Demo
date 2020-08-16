@@ -85,7 +85,13 @@ namespace HmsDemo
 		{
 			
 			// aapt resource value: 0x7F030000
-			public const int ic_map_marker = 2130903040;
+			public const int back = 2130903040;
+			
+			// aapt resource value: 0x7F030001
+			public const int ic_map_marker = 2130903041;
+			
+			// aapt resource value: 0x7F030002
+			public const int scanningframe = 2130903042;
 			
 			static Drawable()
 			{
@@ -104,7 +110,28 @@ namespace HmsDemo
 			public const int action_settings = 2130968576;
 			
 			// aapt resource value: 0x7F040001
-			public const int mapview = 2130968577;
+			public const int back_img = 2130968577;
+			
+			// aapt resource value: 0x7F040002
+			public const int classic_scan_btn = 2130968578;
+			
+			// aapt resource value: 0x7F040003
+			public const int custom_scan_btn = 2130968579;
+			
+			// aapt resource value: 0x7F040005
+			public const int mapview = 2130968581;
+			
+			// aapt resource value: 0x7F040004
+			public const int map_btn = 2130968580;
+			
+			// aapt resource value: 0x7F040006
+			public const int push_btn = 2130968582;
+			
+			// aapt resource value: 0x7F040007
+			public const int rim = 2130968583;
+			
+			// aapt resource value: 0x7F040008
+			public const int scan_view_finder = 2130968584;
 			
 			static Id()
 			{
@@ -121,6 +148,12 @@ namespace HmsDemo
 			
 			// aapt resource value: 0x7F050000
 			public const int activity_main = 2131034112;
+			
+			// aapt resource value: 0x7F050001
+			public const int activity_map = 2131034113;
+			
+			// aapt resource value: 0x7F050002
+			public const int activity_scan = 2131034114;
 			
 			static Layout()
 			{

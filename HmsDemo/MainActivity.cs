@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
@@ -8,36 +10,23 @@ using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.Core.App;
 using AndroidX.Core.Content;
-using Huawei.Hms.Api;
-using Huawei.Hms.Location;
-using Huawei.Hms.Maps;
-using Huawei.Hms.Maps.Clustering;
-using Huawei.Hms.Maps.Model;
+using Huawei.Hms.HmsScanKit;
+using Huawei.Hms.Ml.Scan;
 
 namespace HmsDemo
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.Orientation)]
-    public class MainActivity : AppCompatActivity, IOnMapReadyCallback
+    public class MainActivity : AppCompatActivity
     {
-        private const string TAG = "MapViewDemoActivity";
+        private const string TAG = nameof(MainActivity);
+        public const int DEFINED_CODE = 222;
+        public const int REQUEST_CUSTOM_CODE_SCAN = 0x01;
+        public const int REQUEST_CLASSIC_CODE_SCAN = 0x02;
 
-        private HuaweiMap _map;
-        private MapView _mapView;
-
-        private const string MapViewBundleKey = "MapViewBundleKey";
-        private LatLng _latLng;
-        private Circle _circle;
-        private Marker _marker;
-        private FusedLocationProviderClient _fusedLocationProviderClient;
-        private LastLocationListener _fusedLocationProviderClientLastLocationListener;
-        private DelegateLocationCallback _locationCallback;
-        private ClusterManager _clusterManager;
-        private static readonly string[] Permissions = new string[]
-        {
-            Android.Manifest.Permission.AccessCoarseLocation,
-            Android.Manifest.Permission.AccessFineLocation,
-            Android.Manifest.Permission.Internet
-        };
+        private Button _custom_scan_btn;
+        private Button _classic_scan_btn;
+        private Button _push_btn;
+        private Button _map_btn;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -45,169 +34,84 @@ namespace HmsDemo
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
 
-            if (HuaweiApiAvailability.Instance.IsHuaweiMobileServicesAvailable(this) != ConnectionResult.Success)
-                return;
+            _custom_scan_btn = FindViewById<Button>(Resource.Id.custom_scan_btn);
+            _classic_scan_btn = FindViewById<Button>(Resource.Id.classic_scan_btn);
+            _push_btn = FindViewById<Button>(Resource.Id.push_btn);
+            _map_btn = FindViewById<Button>(Resource.Id.map_btn);
 
-            // Initialise AGConnectServices here or in XamarinCustomProvider
-            // var config = AGConnectServicesConfig.FromContext(ApplicationContext);
-            // config.OverlayWith(new HmsLazyInputStream(this));
-            // AGConnectInstance.Initialize(this);
-
-            // Initialise huawei fused location provider
-            _fusedLocationProviderClientLastLocationListener = new LastLocationListener(
-                location =>
-                {
-                    switch (location)
-                    {
-                        case null:
-                            GetLocation();
-                            break;
-                        default:
-                            MoveToUserLocation(new LatLng(location.Latitude, location.Longitude));
-                            break;
-                    }
-                },
-                exception =>
-                {
-                    Toast.MakeText(this, exception.Message, ToastLength.Long).Show();
-                });
-            _fusedLocationProviderClient = LocationServices.GetFusedLocationProviderClient(this);
-
-            // Get last known location if permissions are granted
-            if (CheckPermission(Permissions, 100))
-                GetLastLocation();
-
-            // Initialise huawei map
-            _mapView = FindViewById<MapView>(Resource.Id.mapview);
-            Bundle mapViewBundle = null;
-            if (savedInstanceState != null)
-                mapViewBundle = savedInstanceState.GetBundle(MapViewBundleKey);
-            _mapView.OnCreate(mapViewBundle);
-            RunOnUiThread(() => _mapView.GetMapAsync(this));
+            _map_btn.Click += OnMapButtonClicked;
+            _push_btn.Click += OnPushButtonClicked;
+            _custom_scan_btn.Click += OnCustomScanButtonClicked;
+            _classic_scan_btn.Click += OnClassicScanButtonClicked;
         }
 
-        private void GetLastLocation()
+        private void OnMapButtonClicked(object sender, EventArgs e)
         {
-            _fusedLocationProviderClient.GetLastLocation()
-                .AddOnSuccessListener(_fusedLocationProviderClientLastLocationListener)
-                .AddOnFailureListener(_fusedLocationProviderClientLastLocationListener);
-        }
-  
-        public void OnMapReady(HuaweiMap map)
-        {
-            Log.Debug(TAG, "onMapReady: ");
-            _map = map;
-
-            _map.UiSettings.ZoomControlsEnabled = true;
-            _map.UiSettings.CompassEnabled = true;
-            _map.UiSettings.MyLocationButtonEnabled = true;
-
-            _map.MyLocationEnabled = true;
-            _map.MapType = HuaweiMap.MapTypeNormal;
-
-            Toast.MakeText(this, "OnMapReady done.", ToastLength.Short).Show();
-
-            _clusterManager = new ClusterManager(this, _map);
-            _map.SetOnCameraIdleListener(_clusterManager);
-
-            _clusterManager.SetCallbacks(new ClusterManagerCallbacks());
-
-            AddRandomClusterItems(_clusterManager);
-            _clusterManager.SetIconGenerator(new CustomIconGenerator(this));
+            StartActivity(new Intent(this, typeof(MapActivity)));
         }
 
-        private void AddRandomClusterItems(ClusterManager clusterManager)
+        private void OnPushButtonClicked(object sender, EventArgs e)
         {
-            LatLngBounds germany = new LatLngBounds(new LatLng(47.77083, 6.57361), new LatLng(53.35917, 12.10833));
+            var token = Xamarin.Essentials.Preferences.Get("PushToken", string.Empty);
 
-            int buffer = 10000;
-            var clusterItems = new List<SampleClusterItem>(buffer);
-            for (int i = 0; i < buffer; i++)
+            ClipboardManager clipboard = (ClipboardManager)GetSystemService(Context.ClipboardService);
+            ClipData clip = ClipData.NewPlainText("Push Token", token);
+            clipboard.PrimaryClip = clip;
+
+            Log.Info(TAG, $"Push token: {token}");
+            Toast.MakeText(this, $"Push token: {token} added to clipboard", ToastLength.Short).Show();
+        }
+
+        private void OnClassicScanButtonClicked(object sender, EventArgs e)
+        {
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
             {
-                clusterItems.Add(RandomLocationGenerator.Generate(germany));
-            }
-            clusterManager.AddItems(clusterItems);
-            clusterItems.Clear();
-        }
-
-        protected override void OnStart()
-        {
-            base.OnStart();
-            _mapView.OnStart();
-        }
-
-        protected override void OnStop()
-        {
-            base.OnStop();
-            _mapView.OnStop();
-        }
-
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            _mapView.OnDestroy();
-        }
-
-        protected override void OnPause()
-        {
-            base.OnPause();
-            _mapView.OnPause();
-        }
-
-        protected override void OnResume()
-        {
-            base.OnResume();
-            _mapView.OnResume();
-        }
-
-        public void MoveToUserLocation(LatLng location)
-        {
-            if (location == null || _map == null)
-                return;
-            _latLng = location;
-            CameraPosition build = new CameraPosition.Builder().Target(_latLng).Zoom(14).Build();
-            CameraUpdate cameraUpdate = CameraUpdateFactory.NewCameraPosition(build);
-            _map.AnimateCamera(cameraUpdate);
-            AddCircle();
-        }
-
-        private void AddCircle()
-        {
-            if (_map == null || _latLng == null)
-            {
-                return;   
-            }
-
-            _circle = _map.AddCircle(new CircleOptions()
-                .Center(_latLng)
-                .Radius(1000).
-                FillColor(new Android.Graphics.Color(0x53, 0x43, 0x51, 0x33)));
-            _marker = _map.AddMarker(new MarkerOptions()
-                .Position(_latLng)
-                .Icon(BitmapDescriptorFactory.FromResource(Resource.Drawable.ic_map_marker))
-                .Clusterable(false)
-            );
-
-            _marker.ShowInfoWindow();
-        }
-
-        public void GetLocation()
-        {
-            LocationRequest locationRequest = new LocationRequest();
-            locationRequest.SetInterval(1000).SetPriority(LocationRequest.PriorityHighAccuracy);
-
-            _locationCallback = new DelegateLocationCallback(locationResult =>
-            {
-                if (locationResult != null && locationResult.HWLocationList.Count > 0)
+                if (CheckPermission(new string[] { Android.Manifest.Permission.Camera }, DEFINED_CODE))
                 {
-                    var location = locationResult.HWLocationList[0];
-                    MoveToUserLocation(new LatLng(location.Latitude, location.Longitude));
-                    _fusedLocationProviderClient.RemoveLocationUpdates(_locationCallback);
+                    ScanUtil.StartScan(this, REQUEST_CLASSIC_CODE_SCAN, new HmsScanAnalyzerOptions.Creator().SetHmsScanTypes(HmsScan.AllScanType).Create());
                 }
-            });
+            }
+        }
 
-            _fusedLocationProviderClient.RequestLocationUpdates(locationRequest, _locationCallback, MainLooper);
+        private void OnCustomScanButtonClicked(object sender, EventArgs e)
+        {
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+            {
+                if (CheckPermission(new string[] { Android.Manifest.Permission.Camera}, DEFINED_CODE))
+                {
+                    StartActivityForResult(new Intent(this, typeof(ScanActivity)), REQUEST_CUSTOM_CODE_SCAN);
+                }
+            }
+        }
 
+        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+
+            if (resultCode != Result.Ok || data == null)
+            {
+                return;
+            }
+
+            HmsScan hmsScan;
+
+            switch (requestCode)
+            {
+                case REQUEST_CUSTOM_CODE_SCAN:
+                    hmsScan = data.GetParcelableExtra(ScanActivity.SCAN_RESULT) as HmsScan;
+                    break;
+                case REQUEST_CLASSIC_CODE_SCAN:
+                    hmsScan = data.GetParcelableExtra(ScanUtil.Result) as HmsScan;
+                    break;
+                default:
+                    hmsScan = null;
+                    break;
+            }
+
+            if (hmsScan != null && !string.IsNullOrWhiteSpace(hmsScan.OriginalValue))
+            {
+                Toast.MakeText(this, hmsScan.OriginalValue, ToastLength.Short).Show();
+            }
         }
 
         #region Permissions
@@ -242,29 +146,15 @@ namespace HmsDemo
                 }
             }
 
+
             if (hasAllPermissions)
-                GetLastLocation();
+            {
+                if (requestCode == DEFINED_CODE)
+                {
+                    StartActivityForResult(new Intent(this, typeof(ScanActivity)), REQUEST_CUSTOM_CODE_SCAN);
+                }
+            }
         }
         #endregion
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-
-            _fusedLocationProviderClientLastLocationListener?.Dispose();
-            _fusedLocationProviderClientLastLocationListener = null;
-
-            _fusedLocationProviderClient?.Dispose();
-            _fusedLocationProviderClient = null;
-
-            _circle?.Dispose();
-            _circle = null;
-
-            _latLng?.Dispose();
-            _latLng = null;
-
-            _marker?.Dispose();
-            _marker = null;
-        }
     }
 }
