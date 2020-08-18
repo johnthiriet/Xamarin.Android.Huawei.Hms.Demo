@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -10,6 +9,9 @@ using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.Core.App;
 using AndroidX.Core.Content;
+using Huawei.Agconnect;
+using Huawei.Agconnect.Config;
+using Huawei.Hms.Analytics;
 using Huawei.Hms.HmsScanKit;
 using Huawei.Hms.Ml.Scan;
 
@@ -28,11 +30,33 @@ namespace HmsDemo
         private Button _push_btn;
         private Button _map_btn;
 
+        private HiAnalyticsInstance _hiAnalyticsInstance;
+
+        private void SendEvent(string key, string value)
+        {
+            // Initiate Parameters            
+            Bundle bundle = new Bundle();
+            bundle.PutString(key, value);
+            // Report a custom Event            
+            _hiAnalyticsInstance?.OnEvent(key, bundle);
+        }
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
+
+
+            // Initialise AGConnectServices here or in XamarinCustomProvider
+            var config = AGConnectServicesConfig.FromContext(ApplicationContext);
+            config.OverlayWith(new HmsLazyInputStream(this));
+            AGConnectInstance.Initialize(this);
+
+            HiAnalyticsTools.EnableLog();
+            _hiAnalyticsInstance = HiAnalytics.GetInstance(this);
+            _hiAnalyticsInstance.SetAnalyticsEnabled(true);
+
 
             _custom_scan_btn = FindViewById<Button>(Resource.Id.custom_scan_btn);
             _classic_scan_btn = FindViewById<Button>(Resource.Id.classic_scan_btn);
@@ -47,11 +71,13 @@ namespace HmsDemo
 
         private void OnMapButtonClicked(object sender, EventArgs e)
         {
+            SendEvent("Tap", "Map");
             StartActivity(new Intent(this, typeof(MapActivity)));
         }
 
         private void OnPushButtonClicked(object sender, EventArgs e)
         {
+            SendEvent("Tap", "Push");
             var token = Xamarin.Essentials.Preferences.Get("PushToken", string.Empty);
 
             ClipboardManager clipboard = (ClipboardManager)GetSystemService(Context.ClipboardService);
@@ -64,6 +90,7 @@ namespace HmsDemo
 
         private void OnClassicScanButtonClicked(object sender, EventArgs e)
         {
+            SendEvent("Tap", "ClassicScan");
             if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
             {
                 if (CheckPermission(new string[] { Android.Manifest.Permission.Camera }, DEFINED_CODE))
@@ -75,6 +102,8 @@ namespace HmsDemo
 
         private void OnCustomScanButtonClicked(object sender, EventArgs e)
         {
+            SendEvent("Tap", "CustomScan");
+
             if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
             {
                 if (CheckPermission(new string[] { Android.Manifest.Permission.Camera}, DEFINED_CODE))
