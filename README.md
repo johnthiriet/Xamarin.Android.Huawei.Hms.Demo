@@ -9,6 +9,8 @@ It covers :
 - MapKit [https://developer.huawei.com/consumer/en/hms/huawei-MapKit](https://developer.huawei.com/consumer/en/hms/huawei-MapKit)
 - Location [https://developer.huawei.com/consumer/fr/hms/huawei-locationkit](https://developer.huawei.com/consumer/fr/hms/huawei-locationkit)
 - Push [https://developer.huawei.com/consumer/en/hms/huawei-pushkit](https://developer.huawei.com/consumer/en/hms/huawei-pushkit)
+- Analytics [https://developer.huawei.com/consumer/en/hms/huawei-analyticskit](https://developer.huawei.com/consumer/en/hms/huawei-analyticskit)
+- ScanKit [https://developer.huawei.com/consumer/en/hms/huawei-scankit](https://developer.huawei.com/consumer/en/hms/huawei-scankit)
 
 The map sample uses a custom clustering code that has also been built and bound to Xamarin. The original project can be found here : [https://github.com/hunterxxx/huawei-map-clustering](https://github.com/hunterxxx/huawei-map-clustering).
 
