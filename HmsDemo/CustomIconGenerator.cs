@@ -1,26 +1,30 @@
 ﻿using System;
 using Android.Content;
+using Android.Graphics;
 using Android.Runtime;
 using Huawei.Hms.Maps.Clustering;
-using Huawei.Hms.Maps.Model;
-using Huawei.Hms.Maps.Util;
 
 namespace HmsDemo
 {
     public class CustomIconGenerator : DefaultIconGenerator
     {
+        private Context _context;
+
         public CustomIconGenerator(Context context) : base(context)
         {
+            _context = context;
+            SetIconStyle(CreateDefaultIconStyle());
         }
 
         protected CustomIconGenerator(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {
         }
 
-        public override BitmapDescriptor GetClusterItemIcon(Java.Lang.Object clusterItem)
+        private IconStyle CreateDefaultIconStyle()
         {
-            return BitmapDescriptorFactory.FromResource(Resource.Drawable.ic_map_marker);
+            return new IconStyle.Builder(_context)
+                .SetClusterBackgroundColor(new Color(0x6c, 0xa6, 0xc1))
+                .Build();
         }
-
     }
 }
