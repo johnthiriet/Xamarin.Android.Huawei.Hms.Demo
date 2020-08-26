@@ -1,0 +1,5 @@
+THIRD-PARTY SOFTWARE NOTICES AND INFORMATION
+Do not translate or localize
+
+Xamarin binding for Huawei's HMS librairies incorporates third party material from Huawei.
+Please refer to https://developer.huawei.com/ for more information about the licences.
