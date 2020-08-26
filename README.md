@@ -37,4 +37,16 @@ In order to run the sample you will need to have a Huawei Developer account. To 
 
 ### Push
 
-![Push](HmsDemo-Push-min.gif)
+#### Receiving push
+
+![Receiving push](HmsDemo-Push-min.gif)
+
+#### Sending push
+
+![Sending push](HmsPush-Portal.jpg)
+
+### Analytics
+
+![Analytics dashboard](HiAnalytics-Dashboard.jpg)
+
+
