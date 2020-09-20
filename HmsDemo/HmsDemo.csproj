@@ -164,22 +164,22 @@
       <Version>2.4.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Huawei.Hms.Scan">
-      <Version>1.2.1.300-rc4</Version>
+      <Version>1.2.1.300</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Huawei.Hms.Push">
-      <Version>4.0.2.300-rc4</Version>
+      <Version>4.0.2.300</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Huawei.Hms.Maps.Clustering">
-      <Version>4.0.1.300-rc4</Version>
+      <Version>4.0.1.300</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Huawei.Hms.HiAnalytics">
-      <Version>5.0.0.301-rc4</Version>
+      <Version>5.0.0.301</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Huawei.Hms.Maps">
-      <Version>4.0.1.300-rc4</Version>
+      <Version>4.0.1.300</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Huawei.Hms.Location">
-      <Version>4.0.2.300-rc4</Version>
+      <Version>4.0.2.300</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
