@@ -27,7 +27,7 @@ namespace HmsDemo
 
         public void OnFailure(Java.Lang.Exception exception)
         {
-            Log.Debug(TAG, "On failure received with {0}", exception?.ToString() ?? "null");
+            Log.Info(TAG, "On failure received with {0}", exception?.ToString() ?? "null");
 
             _onFailure?.Invoke(exception);
         }
@@ -36,19 +36,19 @@ namespace HmsDemo
         {
             Location location = parameter as Location;
 
-            Log.Debug(TAG, "On success received with {0}", location?.ToString() ?? "null");
+            Log.Info(TAG, "On success received with {0}", location?.ToString() ?? "null");
 
             _onSuccess?.Invoke(location);
         }
 
         public void OnCanceled()
         {
-            Log.Debug(TAG, "On canceled received");
+            Log.Info(TAG, "On canceled received");
         }
 
         public void OnComplete(Task task)
         {
-            Log.Debug(TAG, "On completed received");
+            Log.Info(TAG, "On completed received");
         }
 
         protected override void Dispose(bool disposing)

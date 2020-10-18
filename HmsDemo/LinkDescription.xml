@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<linker>
+    <assembly fullname="HmsDemo">
+        <type fullname="HmsDemo.*" preserve="fields">
+            <method name=".ctor" />
+        </type>
+    </assembly>
+    <!-- TODO: Please remove this workaround when the bug from Xamarin.Android is fixed - https://github.com/xamarin/xamarin-android/issues/3263 -->
+    <assembly fullname="Mono.Android">
+        <type fullname="Android.Text.ITextWatcherInvoker" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Agconnect.Core">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Agconnect.Credential">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Agconnect.DataStore.Annotation">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Agconnect.DataStore.Core">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Agconnect.Https">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hmf.Tasks">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.AvailableUpdate">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.Base">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.Device">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.DynamicApi">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.HiAnalytics">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.Location">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.Log">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.ML.Agc">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.ML.Base">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.ML.Camera">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.ML.CommonUtils">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.ML.Ha">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.Maps">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.Maps.Clustering">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.NetworkCommon">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.NetworkGrs">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.OpenDevice">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.Push">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.Scan">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.Security.Base">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.Security.Encrypt">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.Security.Ssl">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.Stats">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.UI">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+    <assembly fullname="Xamarin.Android.Huawei.Hms.Update">
+        <type fullname=".*" preserve="all" />
+    </assembly>
+</linker>

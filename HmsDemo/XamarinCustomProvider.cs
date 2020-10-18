@@ -1,6 +1,7 @@
 ﻿using System;
 using Android.Content;
 using Android.Database;
+using Android.Util;
 using Huawei.Agconnect.Config;
 
 namespace HmsDemo
@@ -25,8 +26,12 @@ namespace HmsDemo
 
         public override bool OnCreate()
         {
+            Log.Info("XamarinCustomProvider", "OnCreate : Start");
+
             var config = AGConnectServicesConfig.FromContext(Context);
             config.OverlayWith(new HmsLazyInputStream(Context));
+
+            Log.Info("XamarinCustomProvider", "OnCreate : End");
             return false;
         }
 

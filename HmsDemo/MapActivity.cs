@@ -8,6 +8,8 @@ using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.Core.App;
 using AndroidX.Core.Content;
+using Huawei.Agconnect;
+using Huawei.Agconnect.Config;
 using Huawei.Hms.Api;
 using Huawei.Hms.Location;
 using Huawei.Hms.Maps;
@@ -46,16 +48,21 @@ namespace HmsDemo
 
             SetContentView(Resource.Layout.activity_map);
 
+            Android.Util.Log.Info(TAG, "IsHuaweiMobileServicesAvailable");
+
             if (HuaweiApiAvailability.Instance.IsHuaweiMobileServicesAvailable(this) != ConnectionResult.Success)
                 return;
 
+            Android.Util.Log.Info(TAG, "Before Init");
+
             // Initialise AGConnectServices here or in XamarinCustomProvider
-            // var config = AGConnectServicesConfig.FromContext(ApplicationContext);
-            // config.OverlayWith(new HmsLazyInputStream(this));
-            // AGConnectInstance.Initialize(this);
+            var config = AGConnectServicesConfig.FromContext(ApplicationContext);
+            config.OverlayWith(new HmsLazyInputStream(this));
+            AGConnectInstance.Initialize(this);
+
+            Android.Util.Log.Info(TAG, "After Init");
 
             FindViewById<ImageView>(Resource.Id.back_img).Click += (s, a) => Finish();
-
 
             // Initialise huawei fused location provider
             _fusedLocationProviderClientLastLocationListener = new LastLocationListener(
@@ -76,31 +83,49 @@ namespace HmsDemo
                     Toast.MakeText(this, exception.Message, ToastLength.Long).Show();
                 });
 
+            Android.Util.Log.Info(TAG, "GetFusedLocationProviderClient");
+
             _fusedLocationProviderClient = LocationServices.GetFusedLocationProviderClient(this);
+
+            Android.Util.Log.Info(TAG, "CheckPermission");
 
             // Get last known location if permissions are granted
             if (CheckPermission(Permissions, 100))
+            {
                 GetLastLocation();
+            }
 
             // Initialise huawei map
             _mapView = FindViewById<MapView>(Resource.Id.mapview);
             Bundle mapViewBundle = null;
             if (savedInstanceState != null)
                 mapViewBundle = savedInstanceState.GetBundle(MapViewBundleKey);
+
+            Android.Util.Log.Info(TAG, "MapView.OnCreate");
             _mapView.OnCreate(mapViewBundle);
-            RunOnUiThread(() => _mapView.GetMapAsync(this));
+
+            RunOnUiThread(() =>
+            {
+                Android.Util.Log.Info(TAG, "MapView.GetMapAsync");
+                _mapView.GetMapAsync(this);
+            });
         }
 
         private void GetLastLocation()
         {
-            _fusedLocationProviderClient.GetLastLocation()
-                .AddOnSuccessListener(_fusedLocationProviderClientLastLocationListener)
-                .AddOnFailureListener(_fusedLocationProviderClientLastLocationListener);
+            Android.Util.Log.Info(TAG, "GetLastLocation");
+            var client = _fusedLocationProviderClient.GetLastLocation();
+            if (client == null)
+                Android.Util.Log.Info(TAG, "GetLastLocation : Client is null");
+
+            client?.AddOnSuccessListener(_fusedLocationProviderClientLastLocationListener);
+            client?.AddOnFailureListener(_fusedLocationProviderClientLastLocationListener);
+            Android.Util.Log.Info(TAG, "GetLastLocation - End");
         }
 
         public void OnMapReady(HuaweiMap map)
         {
-            Log.Debug(TAG, "onMapReady: ");
+            Log.Info(TAG, "OnMapReady.");
             _map = map;
 
             _map.UiSettings.ZoomControlsEnabled = true;
@@ -184,13 +209,14 @@ namespace HmsDemo
             }
 
             _circle = _map.AddCircle(new CircleOptions()
-                .Center(_latLng)
-                .Radius(1000).
-                FillColor(new Android.Graphics.Color(0x53, 0x43, 0x51, 0x33)));
+                .SetCenter(_latLng)
+                .SetRadius(1000)
+                .SetFillColor(new Android.Graphics.Color(0x53, 0x43, 0x51, 0x33)));
+
             _marker = _map.AddMarker(new MarkerOptions()
-                .Position(_latLng)
-                .Icon(BitmapDescriptorFactory.FromResource(Resource.Drawable.ic_map_marker))
-                .Clusterable(false)
+                .SetPosition(_latLng)
+                .SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.ic_map_marker))
+                .SetClusterable(false)
             );
 
             _marker.ShowInfoWindow();

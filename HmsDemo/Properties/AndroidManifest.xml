@@ -10,7 +10,7 @@
 	<uses-permission android:name="com.huawei.appmarket.service.commondata.permission.GET_COMMON_DATA" />
 	<application android:allowBackup="true" android:icon="@mipmap/ic_launcher_round" android:label="@string/app_name" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" android:theme="@style/AppTheme">
 		<uses-library android:name="org.apache.http.legacy" android:required="false" />
-		<meta-data android:name="com.huawei.hms.client.appid" android:value="appid=YOUR_APP_ID" />
+		<meta-data android:name="com.huawei.hms.client.appid" android:value="appid=102672517" />
 		<meta-data android:name="push_kit_auto_init_enabled" android:value="true" />
 	</application>
 </manifest>

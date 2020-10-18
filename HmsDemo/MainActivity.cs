@@ -14,6 +14,7 @@ using Huawei.Agconnect.Config;
 using Huawei.Hms.Analytics;
 using Huawei.Hms.HmsScanKit;
 using Huawei.Hms.Ml.Scan;
+using Huawei.Hms.Push;
 
 namespace HmsDemo
 {
@@ -77,6 +78,8 @@ namespace HmsDemo
 
         private void OnPushButtonClicked(object sender, EventArgs e)
         {
+            //var instance = HmsMessaging.GetInstance(ApplicationContext);
+            //instance.AutoInitEnabled = true;
             SendEvent("Tap", "Push");
             var token = Xamarin.Essentials.Preferences.Get("PushToken", string.Empty);
 
