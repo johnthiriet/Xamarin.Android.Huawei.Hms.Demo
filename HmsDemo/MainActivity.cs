@@ -48,16 +48,16 @@ namespace HmsDemo
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
 
+            //var config = AGConnectServicesConfig.FromContext(ApplicationContext);
+            //config.OverlayWith(new HmsLazyInputStream(this));
+            //AGConnectInstance.Initialize(ApplicationContext);
 
-            // Initialise AGConnectServices here or in XamarinCustomProvider
-            var config = AGConnectServicesConfig.FromContext(ApplicationContext);
-            config.OverlayWith(new HmsLazyInputStream(this));
-            AGConnectInstance.Initialize(this);
-
-            HiAnalyticsTools.EnableLog();
-            _hiAnalyticsInstance = HiAnalytics.GetInstance(this);
-            _hiAnalyticsInstance.SetAnalyticsEnabled(true);
-
+            if (CheckPermission(new string[] { Android.Manifest.Permission.Internet }, 100))
+            {
+                HiAnalyticsTools.EnableLog();
+                _hiAnalyticsInstance = HiAnalytics.GetInstance(this);
+                _hiAnalyticsInstance.SetAnalyticsEnabled(true);
+            }
 
             _custom_scan_btn = FindViewById<Button>(Resource.Id.custom_scan_btn);
             _classic_scan_btn = FindViewById<Button>(Resource.Id.classic_scan_btn);
@@ -78,8 +78,8 @@ namespace HmsDemo
 
         private void OnPushButtonClicked(object sender, EventArgs e)
         {
-            //var instance = HmsMessaging.GetInstance(ApplicationContext);
-            //instance.AutoInitEnabled = true;
+            var instance = HmsMessaging.GetInstance(ApplicationContext);
+            instance.AutoInitEnabled = true;
             SendEvent("Tap", "Push");
             var token = Xamarin.Essentials.Preferences.Get("PushToken", string.Empty);
 
@@ -109,7 +109,7 @@ namespace HmsDemo
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
             {
-                if (CheckPermission(new string[] { Android.Manifest.Permission.Camera}, DEFINED_CODE))
+                if (CheckPermission(new string[] { Android.Manifest.Permission.Camera }, DEFINED_CODE))
                 {
                     StartActivityForResult(new Intent(this, typeof(ScanActivity)), REQUEST_CUSTOM_CODE_SCAN);
                 }

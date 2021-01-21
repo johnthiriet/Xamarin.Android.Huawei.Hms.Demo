@@ -7,10 +7,11 @@ Xamarin bindings can be found there : [https://github.com/johnthiriet/Xamarin.An
 
 It covers :
 - MapKit [https://developer.huawei.com/consumer/en/hms/huawei-MapKit](https://developer.huawei.com/consumer/en/hms/huawei-MapKit)
-- Location [https://developer.huawei.com/consumer/fr/hms/huawei-locationkit](https://developer.huawei.com/consumer/fr/hms/huawei-locationkit)
+- Location [https://developer.huawei.com/consumer/en/hms/huawei-locationkit](https://developer.huawei.com/consumer/en/hms/huawei-locationkit)
 - Push [https://developer.huawei.com/consumer/en/hms/huawei-pushkit](https://developer.huawei.com/consumer/en/hms/huawei-pushkit)
 - Analytics [https://developer.huawei.com/consumer/en/hms/huawei-analyticskit](https://developer.huawei.com/consumer/en/hms/huawei-analyticskit)
 - ScanKit [https://developer.huawei.com/consumer/en/hms/huawei-scankit](https://developer.huawei.com/consumer/en/hms/huawei-scankit)
+- Dtm Api [https://developer.huawei.com/consumer/en/hms/huawei-dynamic-tag-manager/](https://developer.huawei.com/consumer/en/hms/huawei-dynamic-tag-manager/)
 
 The map sample uses a custom clustering code that has also been built and bound to Xamarin. The original project can be found here : [https://github.com/hunterxxx/huawei-map-clustering](https://github.com/hunterxxx/huawei-map-clustering).
 
@@ -49,4 +50,9 @@ In order to run the sample you will need to have a Huawei Developer account. To 
 
 ![Analytics dashboard](HiAnalytics-Dashboard.jpg)
 
+### DTM API
+
+This SDK can be used to transfer events from HiAnalytics to other analytics tools like Firebase even on devices without Google Play Services.
+
+![Huawei Dtm Firebase Debug](HmsDemo-Dtm-Firebase-min.gif)
 

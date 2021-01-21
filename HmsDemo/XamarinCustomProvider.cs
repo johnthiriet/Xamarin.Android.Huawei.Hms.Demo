@@ -6,7 +6,7 @@ using Huawei.Agconnect.Config;
 
 namespace HmsDemo
 {
-    [ContentProvider(new string[] { "com.johnthiriet.HmsDemo" }, InitOrder = 99)]
+    [ContentProvider(new string[] { "com.johnthiriet.HmsDemo" }, InitOrder = 999)]
     public class XamarinCustomProvider : ContentProvider
     {
         public override int Delete(Android.Net.Uri uri, string selection, string[] selectionArgs)

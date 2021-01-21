@@ -56,9 +56,9 @@ namespace HmsDemo
             Android.Util.Log.Info(TAG, "Before Init");
 
             // Initialise AGConnectServices here or in XamarinCustomProvider
-            var config = AGConnectServicesConfig.FromContext(ApplicationContext);
-            config.OverlayWith(new HmsLazyInputStream(this));
-            AGConnectInstance.Initialize(this);
+            //var config = AGConnectServicesConfig.FromContext(ApplicationContext);
+            //config.OverlayWith(new HmsLazyInputStream(this));
+            //AGConnectInstance.Initialize(this);
 
             Android.Util.Log.Info(TAG, "After Init");
 
@@ -130,9 +130,11 @@ namespace HmsDemo
 
             _map.UiSettings.ZoomControlsEnabled = true;
             _map.UiSettings.CompassEnabled = true;
-            _map.UiSettings.MyLocationButtonEnabled = true;
-
-            _map.MyLocationEnabled = true;
+            if (CheckPermission(Permissions, 202))
+            {
+                _map.UiSettings.MyLocationButtonEnabled = true;
+                _map.MyLocationEnabled = true;
+            }
             _map.MapType = HuaweiMap.MapTypeNormal;
 
             Toast.MakeText(this, "OnMapReady done.", ToastLength.Short).Show();
@@ -251,6 +253,7 @@ namespace HmsDemo
                 {
                     hasAllPermissions = false;
                     ActivityCompat.RequestPermissions(this, permissions, requestCode);
+                    break;
                 }
             }
 
@@ -261,7 +264,8 @@ namespace HmsDemo
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            if (permissions.Length == 0)
+                return;
 
             bool hasAllPermissions = true;
             for (int i = 0; i < permissions.Length; i++)
@@ -273,11 +277,19 @@ namespace HmsDemo
                 }
             }
 
-
-            if (hasAllPermissions)
+            if (hasAllPermissions && requestCode == 100)
             {
                 GetLastLocation();
             }
+            if (hasAllPermissions && requestCode == 202)
+            {
+                if (_map != null)
+                {
+                    _map.UiSettings.MyLocationButtonEnabled = true;
+                    _map.MyLocationEnabled = true;
+                }
+            }
+
         }
         #endregion
 
