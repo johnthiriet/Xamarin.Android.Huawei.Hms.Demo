@@ -190,3 +190,4 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 .mfractor
+HmsDemo/hmsdemo.keystore

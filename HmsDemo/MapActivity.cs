@@ -8,14 +8,11 @@ using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.Core.App;
 using AndroidX.Core.Content;
-using Huawei.Agconnect;
-using Huawei.Agconnect.Config;
 using Huawei.Hms.Api;
 using Huawei.Hms.Location;
 using Huawei.Hms.Maps;
 using Huawei.Hms.Maps.Clustering;
 using Huawei.Hms.Maps.Model;
-
 
 namespace HmsDemo
 {
