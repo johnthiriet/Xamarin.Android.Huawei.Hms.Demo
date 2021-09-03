@@ -175,7 +175,7 @@
       <Version>5.3.1.300</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Huawei.Hms.Maps">
-      <Version>5.1.0.300</Version>
+      <Version>5.3.0.300</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Huawei.Hms.Location">
       <Version>5.1.0.303</Version>
@@ -184,7 +184,7 @@
       <Version>2.1.0.300</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Huawei.Hms.Push">
-      <Version>5.0.4.302</Version>
+      <Version>5.3.0.304</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Huawei.Hms.Dtm.Api">
       <Version>5.3.0.300</Version>
