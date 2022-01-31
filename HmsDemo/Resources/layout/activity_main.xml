@@ -32,4 +32,16 @@
 		android:layout_width="150dp"
 		android:layout_height="wrap_content" />
 
+	<Button
+		android:id="@+id/site_btn"
+		android:text="Site Kit"
+		android:layout_width="150dp"
+		android:layout_height="wrap_content" />
+
+	<Button
+		android:id="@+id/safetydetect_btn"
+		android:text="Safety Detect"
+		android:layout_width="150dp"
+		android:layout_height="wrap_content" />
+
 </LinearLayout>

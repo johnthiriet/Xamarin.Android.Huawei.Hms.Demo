@@ -8,7 +8,7 @@ using Android.Util;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using Huawei.Hms.HmsScanKit;
-using Huawei.Hms.Ml.Scan;
+using Huawei.Hms.ML.Scan;
 
 namespace HmsDemo
 {
